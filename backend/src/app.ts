@@ -11,7 +11,9 @@ import path from 'path';
 import { requestLogger, errorLogger  } from './middlewares';
 import { configApi } from './config';
 import { logger } from './utils';
+
 import productRouter from './routes/product.routes';
+import orderRouter from './routes/order.routes';
 
 const app = express();
 
@@ -26,9 +28,9 @@ app.use(json());
 
 app.use(requestLogger);
 app.use(errorLogger);
-//app.use(celebrate());
 
 app.use('/', productRouter);
+app.use('/', orderRouter);
 
 async function startServer() {
     try {

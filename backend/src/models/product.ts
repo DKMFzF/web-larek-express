@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { TProduct, TProductImage  } from '../utils';
+import { TProduct } from '../utils';
 
 const productShema = new mongoose.Schema<TProduct>({
     title: {
