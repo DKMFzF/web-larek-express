@@ -1,14 +1,44 @@
-import { type Request, type Response  } from 'express';
+import { type NextFunction, type Request, type Response  } from 'express';
+import { celebrate, Joi, Segments  } from 'celebrate';
 
+import { TProduct } from '../models/product';
 import Product from '../models/product';
 
-export const getAllProducts = (req: Request, res: Response) => {
-    Product.find({})
-        .then((users) => res.send(users))
-        .catch((err) => res.status(405).send(err));
-}
+// схема для валидации
+const productShema = Joi.object<TProduct>({
+    title: Joi.string().required().min(2).max(30),
+    image: {
+        fileName: Joi.string(),
+        originalName: Joi.string(),
+    },
+    category: Joi.string().required(),
+    description: Joi.string(),
+    price: Joi.number().allow(null)
+});
 
-export const createProduct = (req: Request, res: Response) => {
+export const productRouterValidation = celebrate({
+    [Segments.BODY]: productShema
+});
+
+export const getAllProducts = async (
+    _req: Request,
+    res: Response,
+    next: NextFunction
+) => Product.find({})
+        .then((users) => res.send({
+            items: {
+                ...users
+            },
+            total: users.length
+        }))
+        .catch((err) => next(err));
+
+
+export const createProduct = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     const {
         title,
         image,
@@ -17,7 +47,7 @@ export const createProduct = (req: Request, res: Response) => {
         price
     } = req.body;
 
-    Product.create({
+    return Product.create({
         title,
         image,
         category,
@@ -28,6 +58,6 @@ export const createProduct = (req: Request, res: Response) => {
             if (!user) return Promise.reject(new Error('Ошибка создания продукта'));
             return res.send('Продукт создан');
         })
-        .catch((err) => res.send(err));
+        .catch((err) => next(err));
 }
 
