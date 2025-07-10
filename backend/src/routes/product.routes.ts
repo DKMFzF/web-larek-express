@@ -1,6 +1,6 @@
 import { Router, type Request, type Response  } from 'express';
 
-import { productRouterValidation  } from '../controllers/product.controller';
+import { productRouterValidation  } from '../utils';
 import { getAllProducts, createProduct } from '../controllers/product.controller';
 
 const router = Router();

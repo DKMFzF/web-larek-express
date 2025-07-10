@@ -1,24 +1,6 @@
 import { type NextFunction, type Request, type Response  } from 'express';
-import { celebrate, Joi, Segments  } from 'celebrate';
 
-import { TProduct } from '../models/product';
 import Product from '../models/product';
-
-// схема для валидации
-const productShema = Joi.object<TProduct>({
-    title: Joi.string().required().min(2).max(30),
-    image: {
-        fileName: Joi.string(),
-        originalName: Joi.string(),
-    },
-    category: Joi.string().required(),
-    description: Joi.string(),
-    price: Joi.number().allow(null)
-});
-
-export const productRouterValidation = celebrate({
-    [Segments.BODY]: productShema
-});
 
 export const getAllProducts = async (
     _req: Request,

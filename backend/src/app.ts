@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 import cors from 'cors';
 import helmet from 'helmet';
-import { requestLogger, errorLogger  } from './middlewares';
 import express, {
     json,
     urlencoded
 } from 'express';
 
+import { requestLogger, errorLogger  } from './middlewares';
 import { configApi } from './config';
 import { logger } from './utils';
 import productRouter from './routes/product.routes';
@@ -22,6 +22,7 @@ app.use(json());
 
 app.use(requestLogger);
 app.use(errorLogger);
+//app.use(celebrate());
 
 app.use('/', productRouter);
 
