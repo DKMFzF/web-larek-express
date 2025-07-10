@@ -1,19 +1,33 @@
 import mongoose from 'mongoose';
-import { type Request, type Response } from 'express';
+import express, { json, urlencoded, Request, type Response } from 'express';
+import cors from 'cors';
 
-import { app, PORT, DB_ADDRESS } from './config';
+import { configApi } from './config';
+import { logger } from './utils';
 
+const app = express();
+
+app.use(cors());
+app.use(urlencoded({ extended: true  }));
+app.use(json());
+
+// test rout
 app.get('/ping', (req: Request, res: Response) => {
     res.send('pong');
 });
 
 async function startServer() {
     try {
-        await mongoose.connect(DB_ADDRESS)
-            .then(() => console.log('[MONGO_DB] connect'));
-        app.listen(PORT, () => console.log('[SERVER]: start server on PORT: ', PORT));
+        const DB_HOST = configApi.get<string>('database.host')
+        const SERVER_PORT = configApi.get<number>('server.port');
+        
+        await mongoose.connect(DB_HOST)
+            .then(() => logger.info('[MONGO_DB] connect done'))
+            .catch(() => logger.error('[MONGO_DB] error connect'));
+       
+        app.listen(SERVER_PORT, () => logger.info(`[SERVER]: start server on PORT: ${SERVER_PORT}`));
     } catch (err) {
-        console.error(err);
+        logger.error(`start server`);
     }
 }
 

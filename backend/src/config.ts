@@ -1,16 +1,37 @@
-import express, { urlencoded, json} from 'express';
-import cors from 'cors';
+import { config  } from 'dotenv'
 
-export const {
-    PORT = 3000,
-    DB_ADDRESS = 'mongodb://127.0.0.1:27017/weblarek',
-} = process.env;
+config({ path: '.env.example'  });
 
-const app = express();
+function createConfig() {
+    const configuration = {
+        server: {
+            port: process.env.PORT || 3000,
+        },
+        database: {
+            host: process.env.DB_ADDRESS || 'mongodb://127.0.0.1:27017/weblarek',
+        },
+        jwt: {}
+    }
 
-app.use(cors());
-app.use(urlencoded({ extended: true  }));
-app.use(json());
+    return {
+        get<T>(path: string, defaultValue?: T): T {
+            const parts = path.split('.');
+            let current: any = configuration;
+          
+            for (const part of parts) {
+                if (current === undefined || current === null)
+                    return defaultValue as T;
+                current = current[part];
+            }
+      
+            return (current !== undefined && current !== null)
+                ? current
+                : defaultValue as T;
+        }
+    }
+};
 
-export { app };
+const configApi = createConfig();
+
+export { configApi };
 
