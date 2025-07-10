@@ -1,15 +1,10 @@
 import { type Request, type Response, type NextFunction  } from 'express';
 import { faker  } from '@faker-js/faker';
-import { type TOrder  } from '../utils';
 import Product from '../models/product';
 
 export const createOrder = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {
-            payment,
-            email,
-            phone,
-            address,
             total,
             items
         } = req.body;
@@ -19,6 +14,7 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
         for (let i = 0; i < items.length; i++) {
             const product = await Product.findOne({ _id: items[i] });
             if (!product) return next(new Error('Такого товара нет'));
+            if (!product.price) return next(new Error('Prict товара равен null'));
             resTotal += product.price;
         }
 
