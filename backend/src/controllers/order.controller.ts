@@ -1,6 +1,5 @@
 import { type Request, type Response, type NextFunction  } from 'express';
 import { faker  } from '@faker-js/faker';
-import { Error as MongooseError } from 'mongoose';
 
 import { BedRequest, NotFoundError } from '../error';
 import Product from '../models/product';

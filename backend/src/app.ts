@@ -28,10 +28,11 @@ app.use(urlencoded({ extended: true  }));
 app.use(json());
 
 app.use(requestLogger);
-app.use(errorLogger);
 
 app.use('/', productRouter);
 app.use('/', orderRouter);
+
+app.use(errorLogger);
 
 app.use(errors());
 app.use(errorNotFoundRoute);
