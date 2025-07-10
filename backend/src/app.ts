@@ -3,8 +3,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import express, {
     json,
-    urlencoded
+    urlencoded,
+    static as static_
 } from 'express';
+import path from 'path';
 
 import { requestLogger, errorLogger  } from './middlewares';
 import { configApi } from './config';
@@ -14,6 +16,8 @@ import productRouter from './routes/product.routes';
 const app = express();
 
 app.disable('x-powered-by');
+
+app.use(static_(path.join(__dirname, '..', './public')));
 
 app.use(helmet());
 app.use(cors());
