@@ -17,8 +17,8 @@ export const logger = createLogger({
   level: 'info',
   format: jsonFormat,
   transports: [
-    new transports.File({ filename: `${pathLogs}/error.log`, level: 'error' }),
-    new transports.File({ filename: `${pathLogs}/combined.log` }),
+    new transports.File({ filename: `${pathLogs}/server-log-error.log`, level: 'error' }),
+    new transports.File({ filename: `${pathLogs}/server-log-combined.log` }),
   ]
 });
 

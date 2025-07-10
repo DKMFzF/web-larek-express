@@ -8,19 +8,19 @@ import express, {
 } from 'express';
 import path from 'path';
 
-import { requestLogger, errorLogger  } from './middlewares';
+import { errorsHandler, requestLogger, errorLogger, errorNotFoundRoute } from './middlewares';
 import { configApi } from './config';
 import { logger } from './utils';
-import { errorsHandler  } from './middlewares/error';
 
 import productRouter from './routes/product.routes';
 import orderRouter from './routes/order.routes';
+import { errors } from 'celebrate';
 
 const app = express();
 
 app.disable('x-powered-by');
 
-app.use(static_(path.join(__dirname, '..', './public')));
+app.use(static_(path.join(__dirname, 'public')));
 
 app.use(helmet());
 app.use(cors());
@@ -33,6 +33,8 @@ app.use(errorLogger);
 app.use('/', productRouter);
 app.use('/', orderRouter);
 
+app.use(errors());
+app.use(errorNotFoundRoute);
 app.use(errorsHandler);
 
 async function startServer() {

@@ -11,7 +11,7 @@ function formatCelebrateError(err: CelebrateError) {
 
 export function errorsHandler(
   err: HttpError | CelebrateError,
-  req: Request,
+  _req: Request,
   res: Response,
   _next: NextFunction,
 ) {

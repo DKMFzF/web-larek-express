@@ -1,7 +1,7 @@
 import { type NextFunction, type Request, type Response  } from 'express';
 import { Error as MongooseError } from 'mongoose';
 
-import { ServerError, NotFoundError, BedRequest, ObjectExists } from '../error';
+import { ServerError, BedRequest, ObjectExists } from '../error';
 import Product from '../models/product';
 
 export const getAllProducts = async (
@@ -15,11 +15,7 @@ export const getAllProducts = async (
             },
             total: users.length
         }))
-        .catch((err) => {
-            if (err instanceof MongooseError) return next(new NotFoundError(err.message));
-            return next(new ServerError(err.message));
-        });
-
+        .catch((err) => next(new ServerError(err.message)));
 
 export const createProduct = async (
     req: Request,
