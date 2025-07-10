@@ -1,6 +1,17 @@
 import mongoose from 'mongoose';
 
-import { TProduct  } from './type';
+export type TProductImage = {
+    fileName: string;
+    originName: string;
+}
+
+export type TProduct = {
+    title: string;
+    image: TProductImage;
+    category: string;
+    description: string;
+    price: number;
+}
 
 const productShema = new mongoose.Schema<TProduct>({
     title: {
@@ -30,5 +41,5 @@ const productShema = new mongoose.Schema<TProduct>({
 
 const Product = mongoose.model<TProduct>('product', productShema);
 
-export { Product };
+export default Product;
 

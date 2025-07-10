@@ -4,13 +4,12 @@ import helmet from 'helmet';
 import { requestLogger, errorLogger  } from './middlewares';
 import express, {
     json,
-    urlencoded,
-    Request,
-    type Response
+    urlencoded
 } from 'express';
 
 import { configApi } from './config';
 import { logger } from './utils';
+import productRouter from './routes/product.routes';
 
 const app = express();
 
@@ -24,10 +23,7 @@ app.use(json());
 app.use(requestLogger);
 app.use(errorLogger);
 
-// test rout
-app.get('/ping', (req: Request, res: Response) => {
-    res.send('pong');
-});
+app.use('/', productRouter);
 
 async function startServer() {
     try {
