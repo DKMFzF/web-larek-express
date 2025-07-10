@@ -1,4 +1,4 @@
-import { Router, type Request, type Response  } from 'express';
+import { Router } from 'express';
 
 import { productRouterValidation  } from '../utils';
 import { getAllProducts, createProduct } from '../controllers/product.controller';

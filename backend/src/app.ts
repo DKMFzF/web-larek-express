@@ -11,6 +11,7 @@ import path from 'path';
 import { requestLogger, errorLogger  } from './middlewares';
 import { configApi } from './config';
 import { logger } from './utils';
+import { errorsHandler  } from './middlewares/error';
 
 import productRouter from './routes/product.routes';
 import orderRouter from './routes/order.routes';
@@ -31,6 +32,8 @@ app.use(errorLogger);
 
 app.use('/', productRouter);
 app.use('/', orderRouter);
+
+app.use(errorsHandler);
 
 async function startServer() {
     try {

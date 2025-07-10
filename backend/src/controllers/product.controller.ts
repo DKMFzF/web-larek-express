@@ -1,5 +1,7 @@
 import { type NextFunction, type Request, type Response  } from 'express';
+import { Error as MongooseError } from 'mongoose';
 
+import { ServerError, NotFoundError, BedRequest, ObjectExists } from '../error';
 import Product from '../models/product';
 
 export const getAllProducts = async (
@@ -13,7 +15,10 @@ export const getAllProducts = async (
             },
             total: users.length
         }))
-        .catch((err) => next(err));
+        .catch((err) => {
+            if (err instanceof MongooseError) return next(new NotFoundError(err.message));
+            return next(new ServerError(err.message));
+        });
 
 
 export const createProduct = async (
@@ -36,10 +41,12 @@ export const createProduct = async (
         description,
         price
     })
-        .then((user) => {
-            if (!user) return Promise.reject(new Error('Ошибка создания продукта'));
-            return res.send('Продукт создан');
-        })
-        .catch((err) => next(err));
+        .then(() => res.send('Продукт создан'))
+        .catch((err) => {
+            if (err instanceof Error && err.message.includes('E11000'))
+                next(new ObjectExists('Such a product already exists'));
+            if (err instanceof MongooseError) next(new BedRequest('Incorrect data'));
+            return next(new ServerError(err.message));
+        });
 }
 
