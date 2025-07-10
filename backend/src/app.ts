@@ -1,15 +1,28 @@
 import mongoose from 'mongoose';
-import express, { json, urlencoded, Request, type Response } from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import { requestLogger, errorLogger  } from './middlewares';
+import express, {
+    json,
+    urlencoded,
+    Request,
+    type Response
+} from 'express';
 
 import { configApi } from './config';
 import { logger } from './utils';
 
 const app = express();
 
+app.disable('x-powered-by');
+
+app.use(helmet());
 app.use(cors());
 app.use(urlencoded({ extended: true  }));
 app.use(json());
+
+app.use(requestLogger);
+app.use(errorLogger);
 
 // test rout
 app.get('/ping', (req: Request, res: Response) => {
