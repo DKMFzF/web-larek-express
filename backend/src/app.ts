@@ -1,19 +1,21 @@
 import mongoose from 'mongoose';
-import express, { json, type Request, type Response } from 'express';
-import cors from 'cors';
+import { type Request, type Response } from 'express';
 
-const app = express();
-
-const { PORT = 3000 } = process.env;
-
-app.use(json());
-app.use(cors());
-
-mongoose.connect('mongodb://localhost:27017/weblarek');
+import { app, PORT, DB_ADDRESS } from './config';
 
 app.get('/ping', (req: Request, res: Response) => {
-    res.send('ping');
-})
+    res.send('pong');
+});
 
-app.listen(PORT, () => console.log('start server on PORT: ', PORT))
+async function startServer() {
+    try {
+        await mongoose.connect(DB_ADDRESS)
+            .then(() => console.log('[MONGO_DB] connect'));
+        app.listen(PORT, () => console.log('[SERVER]: start server on PORT: ', PORT));
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+startServer();
 
