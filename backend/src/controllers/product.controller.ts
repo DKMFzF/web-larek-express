@@ -36,7 +36,7 @@ export const createProduct = async (
     description,
     price,
   })
-    .then(() => res.send('Продукт создан'))
+    .then(() => res.status(201).send('Продукт создан'))
     .catch((err) => {
       if (err instanceof Error && err.message.includes('E11000')) {
         next(new ObjectExists('Such a product already exists'));

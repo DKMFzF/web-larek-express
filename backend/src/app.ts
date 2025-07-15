@@ -1,19 +1,20 @@
 import mongoose from 'mongoose';
 import cors from 'cors';
 import helmet from 'helmet';
+import { errorLogger } from 'express-winston';
+import { errors } from 'celebrate';
 import express, { json, urlencoded, static as static_ } from 'express';
 import path from 'path';
 
-import errorsHandler from 'middlewares/error';
-import errorNotFoundRoute from 'middlewares/notFoundRoute';
-import { requestLogger } from 'middlewares/logger';
-import { errorLogger } from 'express-winston';
-import { configApi } from './config';
-import { logger, limiter } from './utils';
+import errorsHandler from './middlewares/error';
+import errorNotFoundRoute from './middlewares/notFoundRoute';
+import { requestLogger } from './middlewares/logger';
 
 import productRouter from './routes/product.routes';
 import orderRouter from './routes/order.routes';
-import { errors } from 'celebrate';
+
+import { configApi } from './config';
+import { logger, limiter } from './utils';
 
 const app = express();
 
