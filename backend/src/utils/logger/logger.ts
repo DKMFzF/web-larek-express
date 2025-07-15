@@ -8,23 +8,25 @@ export const jsonFormat = combine(
   format.json()
 );
 
-export const consoleFormat = combine(
-  colorize(),
-  simple(),
-);
+export const consoleFormat = combine(colorize(), simple());
 
 export const logger = createLogger({
   level: 'info',
   format: jsonFormat,
   transports: [
-    new transports.File({ filename: `${pathLogs}/server-log-error.log`, level: 'error' }),
+    new transports.File({
+      filename: `${pathLogs}/server-log-error.log`,
+      level: 'error',
+    }),
     new transports.File({ filename: `${pathLogs}/server-log-combined.log` }),
-  ]
+  ],
 });
 
-if (process.env.NODE_ENV !== "production") {
-  logger.add(new transports.Console({ 
-    level: 'debug',
-    format: consoleFormat
-  }));
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new transports.Console({
+      level: 'debug',
+      format: consoleFormat,
+    })
+  );
 }
