@@ -4,12 +4,10 @@ import helmet from 'helmet';
 import express, { json, urlencoded, static as static_ } from 'express';
 import path from 'path';
 
-import {
-  errorsHandler,
-  requestLogger,
-  errorLogger,
-  errorNotFoundRoute,
-} from './middlewares';
+import errorsHandler from 'middlewares/error';
+import errorNotFoundRoute from 'middlewares/notFoundRoute';
+import { requestLogger } from 'middlewares/logger';
+import { errorLogger } from 'express-winston';
 import { configApi } from './config';
 import { logger, limiter } from './utils';
 

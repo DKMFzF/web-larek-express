@@ -1,7 +1,9 @@
-import { HttpError } from './Base';
+import HttpError from './Base';
 
-export class BedRequest extends HttpError {
+class BedRequest extends HttpError {
   constructor(message: string) {
     super(message, 400);
   }
 }
+
+export default BedRequest;

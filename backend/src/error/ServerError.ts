@@ -1,7 +1,9 @@
-import { HttpError } from './Base';
+import HttpError from './Base';
 
-export class ServerError extends HttpError {
+class ServerError extends HttpError {
   constructor(message: string) {
     super(message, 500);
   }
 }
+
+export default ServerError;

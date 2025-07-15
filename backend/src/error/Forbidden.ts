@@ -1,7 +1,9 @@
-import { HttpError } from './Base';
+import HttpError from './Base';
 
-export class ForbiddenError extends HttpError {
+class ForbiddenError extends HttpError {
   constructor(message: string) {
     super(message, 403);
   }
 }
+
+export default ForbiddenError;

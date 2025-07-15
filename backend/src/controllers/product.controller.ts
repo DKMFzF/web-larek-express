@@ -1,6 +1,8 @@
 import { type NextFunction, type Request, type Response } from 'express';
 import { Error as MongooseError } from 'mongoose';
-import { ServerError, BedRequest, ObjectExists } from '../error';
+import ServerError from '../error/ServerError';
+import BedRequest from '../error/BadRequest';
+import ObjectExists from '../error/ObjectExists';
 import Product from '../models/product';
 
 export const getAllProducts = async (

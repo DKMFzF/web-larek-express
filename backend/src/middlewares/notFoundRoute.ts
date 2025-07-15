@@ -1,8 +1,10 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { NotFoundError } from '../error';
+import NotFoundError from '../error/NotFound';
 
-export const errorNotFoundRoute = (
+const errorNotFoundRoute = (
   req: Request,
-  res: Response,
-  next: NextFunction
+  _res: Response,
+  next: NextFunction,
 ) => next(new NotFoundError(`${req.url} - not found`));
+
+export default errorNotFoundRoute;

@@ -1,6 +1,8 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { faker } from '@faker-js/faker';
-import { BedRequest, NotFoundError } from '../error';
+
+import BedRequest from '../error/BadRequest';
+import NotFoundError from '../error/NotFound';
 import Product from '../models/product';
 
 const createOrder = async (req: Request, res: Response, next: NextFunction) => {
